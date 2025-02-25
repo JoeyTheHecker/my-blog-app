@@ -24,8 +24,17 @@ async function loginUser() {
     });
     loading.value = false;
     console.log(res);
-    navigateTo("dashboard");
     // successMsg(res?.message);
+
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({
+        user: res?.user,
+        token: res?.token,
+      })
+    );
+
+    navigateTo("/admin/dashboard");
   } catch (error) {
     loading.value = false;
 
