@@ -4,7 +4,7 @@
     </div>
 
     <div>
-        <slot></slot>
+        <NuxtPage></NuxtPage>
     </div>
 
     <div>

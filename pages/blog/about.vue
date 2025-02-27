@@ -1,5 +1,5 @@
 <template>
     <div>
-        <h1>about</h1>
+        <AboutDetail :message="'This is about detail'"/>
     </div>
-</template>
+</template>   
