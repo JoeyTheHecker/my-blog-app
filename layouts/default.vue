@@ -1,0 +1,10 @@
+<template>
+    <div>
+        <ul>
+            <li>
+                RouterLink
+                NuxtLink
+            </li>
+        </ul>
+    </div>
+</template>
