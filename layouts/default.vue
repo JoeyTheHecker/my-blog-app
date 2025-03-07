@@ -13,6 +13,9 @@
             <li>
                 <NuxtLink to="/blog/about">About</NuxtLink>
             </li>
+            <li>
+                <NuxtLink to="/blog/contact">Contact</NuxtLink>
+            </li>
         </ul>
     </div>
 
