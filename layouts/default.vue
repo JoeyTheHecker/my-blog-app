@@ -10,6 +10,9 @@
             <li>
                 <NuxtLink to="">Register</NuxtLink>
             </li>
+            <li>
+                <NuxtLink to="/blog/about">About</NuxtLink>
+            </li>
         </ul>
     </div>
 
