@@ -8,10 +8,12 @@ const registerInput = ref({
   password: "",
 });
 
+const loading = ref(false);
 const config = useRuntimeConfig();
 
 async function createUser() {
   try {
+    loading.value = true;
     const res = await $fetch(config.public?.API_BASE_URL + "/register", {
       headers: {
         Accept: "application/json",
@@ -20,8 +22,11 @@ async function createUser() {
       method: "POST",
       body: JSON.stringify(registerInput.value),
     });
+    loading.value = false;
     console.log(res);
+    successMsg(res?.message);
   } catch (error) {
+    loading.value = false;
     if (error?.response?.status === 422) {
       const errors = error.response?._data;
       for (const message of errors) {
@@ -68,9 +73,10 @@ async function createUser() {
           </NuxtLink>
           <button
             @click="createUser"
+            :disabled="loading"
             class="rounded-md text-white bg-indigo-700 py-2 text-sm font-semibold"
           >
-            Create an Acount
+            {{ loading ? "Processing..." : "Create an Account" }}
           </button>
         </div>
       </div>
