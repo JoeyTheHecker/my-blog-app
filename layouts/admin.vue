@@ -1,16 +1,72 @@
-<template>
-    <nav class="rounded-md shadow-md flex justify-between mb-10 bg-white">
-          <Links />
-          <div class="p-2">
-              <button class="p-2 rounded-full font-bold text-red-800">
-                Logout
-              </button>
-          </div>
-        </nav>
+<script setup>
 
-      <div>
-        <div class="mr-28 ml-28">
-          <slot></slot>
+const userData=getUserData();
+
+const loading=ref(false);
+const config = useRuntimeConfig();
+
+const{ data, error } = await useFetch(`${config.public.API_BASE_URL}/user-logged-in`, {
+    method: 'GET',
+    headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${userData?.token}`
+    }
+})
+
+console.log('data: ',data.value, 'error :', error.value)
+
+async function logoutUser() {
+  const config = useRuntimeConfig();
+  try {
+    loading.value = true;
+    const res = await $fetch(config.public?.API_BASE_URL + "/logout", {
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+        Authorization: `Bearer ${userData?.token}`
+      },
+      method: "POST",
+      body: JSON.stringify({userData:userData?.user?.id}),
+    });
+    loading.value = false;
+
+    console.log(res);
+    
+    successMsg(res?.message);
+
+    localStorage.clear()
+
+    navigateTo("/auth/login");
+
+  } catch (error) {
+    loading.value = false;
+
+    if (error?.response?.status === 401) {
+      showError(error.response?._data.message);
+    }
+
+  }
+}
+</script>
+<template>
+        <div class="h-screen bg-slate-100">
+            <div class="pt-20 mr-28 ml-28">
+                <nav class="rounded-md shadow-md flex justify-between mb-10 bg-white">
+                    <Links />
+                    <div class="p-2">
+                        <span class="text-indigo-500"> {{ userData?.user?.email }} - </span>
+                        <button @click="logoutUser" class="p-2 rounded-full font-bold text-red-800">
+                            {{ loading ? 'Processing...' : 'Logout' }}
+                        </button>
+                    </div>
+                </nav>
+
+                <div>
+                    <div class="mr-28 ml-28">
+                    <slot></slot>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
 </template>

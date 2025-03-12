@@ -11,6 +11,8 @@ const registerInput = ref({
 const loading = ref(false);
 
 async function createUser() {
+  const config = useRuntimeConfig();
+  
   try {
     loading.value = true;
     const res = await $fetch(config.public?.API_BASE_URL + "/register", {

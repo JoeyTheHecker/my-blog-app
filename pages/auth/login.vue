@@ -11,6 +11,7 @@ const loginInput = ref({
 const loading = ref(false);
 
 async function loginUser() {
+  const config = useRuntimeConfig();
   try {
     loading.value = true;
     const res = await $fetch(config.public?.API_BASE_URL + "/login", {
