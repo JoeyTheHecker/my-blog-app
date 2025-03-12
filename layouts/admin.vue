@@ -5,15 +5,30 @@ const userData=getUserData();
 const loading=ref(false);
 const config = useRuntimeConfig();
 
-const{ data, error } = await useFetch(`${config.public.API_BASE_URL}/user-logged-in`, {
-    method: 'GET',
-    headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${userData?.token}`
-    }
-})
 
-console.log('data: ',data.value, 'error :', error.value)
+
+
+async function checkIfUserIsloggedIn() {
+    try {
+        const res = await $fetch(config.public?.API_BASE_URL + "/user-logged-in", {
+        headers: {
+            Accept: "application/json",
+            "content-type": "application/json",
+            Authorization: `Bearer ${userData?.token}`
+        },
+        method: "POST",
+        });
+    } catch (error) {
+        loading.value = false;
+
+        if (error?.response?.status === 401) {
+        showError(error.response?._data.message);
+        }
+        localStorage.clear()
+        navigateTo('/auth/login');
+    }
+}
+
 
 async function logoutUser() {
   const config = useRuntimeConfig();
@@ -44,9 +59,14 @@ async function logoutUser() {
     if (error?.response?.status === 401) {
       showError(error.response?._data.message);
     }
-
+        localStorage.clear()
+        navigateTo('/auth/login');
   }
 }
+
+onMounted(async()=>{
+    await checkIfUserIsloggedIn()
+})
 </script>
 <template>
         <div class="h-screen bg-slate-100">
