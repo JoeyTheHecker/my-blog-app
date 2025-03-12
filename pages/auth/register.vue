@@ -9,7 +9,6 @@ const registerInput = ref({
 });
 
 const loading = ref(false);
-const config = useRuntimeConfig();
 
 async function createUser() {
   try {

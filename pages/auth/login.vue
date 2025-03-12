@@ -9,7 +9,6 @@ const loginInput = ref({
 });
 
 const loading = ref(false);
-const config = useRuntimeConfig();
 
 async function loginUser() {
   try {
