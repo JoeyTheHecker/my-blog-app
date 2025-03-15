@@ -19,13 +19,13 @@ const {postInput,loading,edit}=storeToRefs(postStore)
           type="text"
           class="mb-2 border rounded-md py-1 px-2 shadow-md"
         />
-      <!-- <textarea
+      <textarea
           v-model="postInput.post_content"
           name=""
           id=""
           rows="5"
           class="mb-2 border rounded-md py-1 px-2 shadow-md"
-        ></textarea>  -->
+        ></textarea> 
 
         <ClientOnly fallback-tag="span" fallback="Loading comments...">
           <rich-editor
