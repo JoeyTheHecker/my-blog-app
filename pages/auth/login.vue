@@ -4,8 +4,8 @@ definePageMeta({
 });
 
 const loginInput = ref({
-  email: "",
-  password: "",
+  email: "admin@y.com",
+  password: "123456789",
 });
 
 const loading = ref(false);

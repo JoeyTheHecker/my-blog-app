@@ -5,9 +5,6 @@ const userData=getUserData();
 const loading=ref(false);
 const config = useRuntimeConfig();
 
-
-
-
 async function checkIfUserIsloggedIn() {
     try {
         const res = await $fetch(config.public?.API_BASE_URL + "/user-logged-in", {
@@ -74,7 +71,7 @@ onMounted(async()=>{
                 <nav class="rounded-md shadow-md flex justify-between mb-10 bg-white">
                     <Links />
                     <div class="p-2">
-                        <span class="text-indigo-500"> {{ userData?.user?.email }} - </span>
+                        <span class="text-indigo-500" v-if="userData?.user?.email"> {{ userData?.user?.email }} - </span>
                         <button @click="logoutUser" class="p-2 rounded-full font-bold text-red-800">
                             {{ loading ? 'Processing...' : 'Logout' }}
                         </button>
