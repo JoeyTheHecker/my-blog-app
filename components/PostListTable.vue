@@ -1,7 +1,7 @@
 
 <script setup>
 
-defineProps({ posts: Array });
+defineProps([ 'posts', 'status' ]);
 
 </script>
 
@@ -34,6 +34,10 @@ defineProps({ posts: Array });
         </thead>
   
         <tbody>
+            <div v-if="status === 'pending'">
+               Loading data...
+            </div>
+
           <tr class="text-left" v-for="post in posts" :key="post?.id">
             <td class="border border-gray-300 py-2 px-4">
                <img :src="post?.image" width="150"/>

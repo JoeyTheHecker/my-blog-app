@@ -8,7 +8,7 @@ definePageMeta({
 const userData = getUserData();
 const config = useRuntimeConfig();
 
-const { data, error } = await useFetch(config.public?.API_BASE_URL + "/posts", {
+const { data, error, status } = await useFetch(config.public?.API_BASE_URL + "/posts", {
   headers: {
     Accept: "application/json",
     Authorization: `Bearer ${userData?.token}`,
@@ -25,7 +25,6 @@ const posts = computed(() => data.value?.data?.data || []);
     <h1 class="text-2xl mb-2">Post List</h1>
 
 
-    <PostListTable v-if="posts.length" :posts="posts" />
-    <p v-else>Loading posts...</p>
+    <PostListTable :posts="posts" :status="status"/>
   </div>
 </template>
