@@ -77,13 +77,9 @@ onMounted(async()=>{
                         </button>
                     </div>
                 </nav>
-
                 <div>
-                    <div class="mr-28 ml-28">
                     <slot></slot>
-                    </div>
                 </div>
-
             </div>
         </div>
 </template>

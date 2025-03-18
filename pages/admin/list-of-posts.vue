@@ -1,22 +1,38 @@
 <script setup>
 import { computed } from "vue";
 
-definePageMeta({
-  layout: "admin",
+  definePageMeta({
+    layout: "admin",
+  });
+
+  const userData = getUserData();
+  const config = useRuntimeConfig();
+  const query = ref('')
+  const { data, error, status, refresh } = await useFetch(config.public?.API_BASE_URL + "/posts", {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${userData?.token}`,
+    },
+    watch:[query],
+    query:{
+        query:query.value
+    }
 });
 
-const userData = getUserData();
-const config = useRuntimeConfig();
+  function _debounce(cb,delay){
+    let timer
 
-const { data, error, status } = await useFetch(config.public?.API_BASE_URL + "/posts", {
-  headers: {
-    Accept: "application/json",
-    Authorization: `Bearer ${userData?.token}`,
-  },
-  method: "GET",
-});
+    return function(...args){
+      clearTimeout(timer)
+      timer = setTimeout(()=> cb(args),delay)
+    }
+  }
 
-// Extract the posts array correctly
+  const searchPost = _debounce(function(searchVal){
+      console.log(searchVal);
+      query.value==searchVal[0];
+  })
+
 const posts = computed(() => data.value?.data?.data || []);
 </script>
 
@@ -24,7 +40,6 @@ const posts = computed(() => data.value?.data?.data || []);
   <div>
     <h1 class="text-2xl mb-2">Post List</h1>
 
-
-    <PostListTable :posts="posts" :status="status"/>
+    <PostListTable @searchPost="searchPost" :posts="posts" :status="status"/>
   </div>
 </template>

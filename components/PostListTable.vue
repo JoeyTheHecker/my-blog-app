@@ -3,14 +3,20 @@
 
 defineProps([ 'posts', 'status' ]);
 
+const emit = defineEmits(['searchPost']);
+const query=ref('');
+
+async function searchPostByTitle() {
+    await emit('searchPost',query.value)
+}
 </script>
-
-
 <template>
     <div>
       <h1 class="text-2x1 mb-2">Post-list</h1>
       <div class="flex justify-between mb-2">
         <input
+        @keydown="searchPostByTitle"
+        v-model="query"
           placeholder="Search..."
           type="text"
           class="mb-2 border rounded-md py-1 px-2 shadow-md"
@@ -38,7 +44,7 @@ defineProps([ 'posts', 'status' ]);
                Loading data...
             </div>
 
-          <tr class="text-left" v-for="post in posts" :key="post?.id">
+          <tr v-else class="text-left" v-for="post in posts" :key="post?.id">
             <td class="border border-gray-300 py-2 px-4">
                <img :src="post?.image" width="150"/>
             </td>
